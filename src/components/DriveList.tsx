@@ -1,12 +1,14 @@
 import { PageProps } from "gatsby";
+import { useLocation } from '@reach/router';
 import React, { useEffect, useState } from "react";
-import listDriveFolderAndVideo from "../../../api/getDriveFiles";
-import ItemList from "../../../components/ItemList";
+import listDriveFolderAndVideo from "../api/getDriveFiles";
+import ItemList from "./ItemList";
 
 type FilesType = Awaited<ReturnType<typeof listDriveFolderAndVideo>>;
 
-function DriveList({ location: { pathname } }: PageProps) {
-  const [_, driveId, folderId] = pathname.split("/").slice(1).slice(0, -1);
+function DriveList() {
+  const location = useLocation();
+  const [_, driveId, folderId] = location.pathname.split("/").slice(1).slice(0, -1);
   const [items, setItems] = useState<Array<FilesType["files"][0]>>([]);
 
   useEffect(() => {
