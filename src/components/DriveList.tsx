@@ -6,9 +6,14 @@ import ItemList from "./ItemList";
 
 type FilesType = Awaited<ReturnType<typeof listDriveFolderAndVideo>>;
 
-function DriveList() {
-  const location = useLocation();
-  const [_, driveId, folderId] = location.pathname.split("/").slice(1).slice(0, -1);
+type DriveListProps = {
+  goNexFolder: (folderId: string) => void;
+  goPrevious: () => void;
+  driveId: string;
+  folderId: string;
+}
+
+function DriveList({ goNexFolder, goPrevious, driveId, folderId }: DriveListProps) {
   const [items, setItems] = useState<Array<FilesType["files"][0]>>([]);
 
   useEffect(() => {
@@ -31,6 +36,7 @@ function DriveList() {
 
   return (
     <div>
+      <button>Go Back</button>
       <ItemList items={items} updateItems={updateItems} />
     </div>
   );
