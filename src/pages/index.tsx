@@ -2,9 +2,6 @@ import { HeadFC, PageProps, Script } from "gatsby";
 import * as React from "react";
 import localforage from "localforage";
 import { getToken } from "../utils/getToken";
-import Video from "../components/Video";
-import { filesApi } from "../constants";
-import ItemList from "../components/ItemList";
 import listDriveFolderAndVideo from "../api/getDriveFiles";
 
 const IndexPage: React.FC<PageProps> = () => {
