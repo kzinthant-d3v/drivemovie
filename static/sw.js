@@ -62,6 +62,7 @@ self.addEventListener("fetch", (e) => {
   const url = new URL(e.request.url).origin;
 
   if (url === "https://www.googleapis.com") {
+    if (Boolean(e.request.headers.get("authorization"))) return;
     e.respondWith(
       storage.get("accessToken").then((token) => {
         const req = new Request(e.request, {
@@ -69,7 +70,7 @@ self.addEventListener("fetch", (e) => {
           credentials: "same-origin",
           headers: {
             range: e.request.headers.get("range"),
-            authorization: Boolean(e.request.headers.get("authorization")) ? e.request.headers.get("authorization") : "Bearer " + token,
+            authorization: "Bearer " + token,
           },
         });
         return fetch(req);
