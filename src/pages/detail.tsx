@@ -38,7 +38,7 @@ function Detail({ location }: PageProps) {
     <div className='relative'>
       <img src={backDrop} alt="poster" className='absolute' />
       <div className='w-[1000px]'>
-        {!isSSR && <React.Suspense fallback={<div />}><Video id={videoId} /></React.Suspense>}
+        {!isSSR && <React.Suspense fallback={<div />}><Video id={videoId ?? ''} /></React.Suspense>}
       </div>
     </div>)
 }
