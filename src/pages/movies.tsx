@@ -3,6 +3,8 @@ import DriveList from '../components/DriveList';
 import useAccessToken from '../hooks/useAccessToken';
 
 function Movies() {
+  if (typeof document === 'undefined') return null;
+
   useAccessToken();
   const params = (new URL(document.location.toString())).searchParams;
   const searchParams = new URLSearchParams(params);

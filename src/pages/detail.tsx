@@ -4,6 +4,7 @@ import { getMovieDetail } from '../utils/getMovieDetail';
 import Video from '../components/Video';
 
 function Detail() {
+  if (typeof document === 'undefined') return null;
   const params = (new URL(document.location.toString())).searchParams;
   const movieId = params.get('movieId') ?? '';
   const videoId = params.get('videoId')
