@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { MovieDetail } from '../types';
 import { getMovieDetail } from '../utils/getMovieDetail';
 import Video from '../components/Video';
+import { PageProps } from 'gatsby';
 
-function Detail() {
-  if (typeof document === 'undefined') return null;
-  const params = (new URL(document.location.toString())).searchParams;
+function Detail({ location }: PageProps) {
+  const params = (new URL(location.toString())).searchParams;
   const movieId = params.get('movieId') ?? '';
   const videoId = params.get('videoId')
   const [movieDetail, setMovieDetail] = useState<MovieDetail>();

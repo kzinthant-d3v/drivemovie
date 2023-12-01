@@ -1,14 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DriveList from '../components/DriveList';
 import useAccessToken from '../hooks/useAccessToken';
+import { PageProps, navigate } from 'gatsby';
 
-function Movies() {
-  if (typeof document === 'undefined') return null;
+function Movies({ location }: PageProps) {
 
   useAccessToken();
-  const params = (new URL(document.location.toString())).searchParams;
+  const params = (new URL(location.href.toString())).searchParams;
   const searchParams = new URLSearchParams(params);
-
 
   const driveId = '0ADqpawmQtjtnUk9PVA';
   const [folderIds, setFolderIds] = useState([driveId, ...[...searchParams].map(p => p[1])]);
@@ -16,9 +15,14 @@ function Movies() {
 
   const goNextFolder = (newFolderId: string) => {
     searchParams.append('f', newFolderId);
-    (window as any).location.search = searchParams;
+    navigate("?" + searchParams.toString());
     setFolderIds(prev => [...prev, newFolderId])
   };
+  console.log('render')
+
+  useEffect(() => {
+    setFolderIds([driveId, ...[...searchParams].map(p => p[1])])
+  }, [searchParams.toString()])
 
   return (
     <div>
