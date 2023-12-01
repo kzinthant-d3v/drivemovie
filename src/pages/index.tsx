@@ -5,28 +5,7 @@ import { getToken } from "../utils/getToken";
 import listDriveFolderAndVideo from "../api/getDriveFiles";
 
 const IndexPage: React.FC<PageProps> = () => {
-  React.useEffect(() => {
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/sw.js");
-    }
-  }, []);
 
-  React.useEffect(() => {
-    const getSetToken = async () => {
-      const accessToken = await getToken();
-      localforage.setItem("accessToken", accessToken);
-    };
-
-    (async () => await getSetToken())();
-
-    const interval = setInterval(async () => {
-      await getSetToken();
-    }, 3000000);
-
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, []);
 
   const [items, setItems] = React.useState([]);
 

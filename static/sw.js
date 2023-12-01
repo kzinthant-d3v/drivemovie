@@ -59,8 +59,6 @@ self.addEventListener("activate", () => {
   return self.clients.claim();
 });
 
-let ffmpeg;
-
 self.addEventListener("fetch", (e) => {
   const url = new URL(e.request.url).origin;
 

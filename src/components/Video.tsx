@@ -1,21 +1,26 @@
 import React from "react";
 import "./plyr.css";
 import Plyr from "plyr-react";
+import { googleUrl } from "../constants";
 
-const plyrProps = {
-  source: {
-    type: "video",
-    title: "test",
-    sources: [
-      {
-        src: `${googleUrl}/files/1Yd71AGSJNFpcrVTINlBVvb696zyJRpqY?alt=media`,
-        type: "video/mp4" as const,
-      },
-    ],
-  },
-};
+type VideoProps = {
+  id: string;
+}
 
-function Video() {
+function Video({ id }: VideoProps) {
+  const plyrProps = {
+    source: {
+      type: "video",
+      title: "test",
+      sources: [
+        {
+          src: `${googleUrl}/files/${id}?alt=media`,
+          type: "video/mp4" as const,
+        },
+      ],
+    },
+  };
+
   return (
     <div>
       <Plyr {...plyrProps} />
