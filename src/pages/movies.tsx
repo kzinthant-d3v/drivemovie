@@ -4,25 +4,19 @@ import useAccessToken from '../hooks/useAccessToken';
 import { PageProps, navigate } from 'gatsby';
 
 function Movies({ location }: PageProps) {
-
+  const query = location.search;
+  const params = new URLSearchParams(query);
   useAccessToken();
-  const params = (new URL(location.href?.toString())).searchParams;
-  const searchParams = new URLSearchParams(params);
 
   const driveId = '0ADqpawmQtjtnUk9PVA';
-  const [folderIds, setFolderIds] = useState([driveId, ...[...searchParams].map(p => p[1])]);
+  const [folderIds, setFolderIds] = useState([driveId, ...[...params].map(p => p[1])]);
   const currentFolder = folderIds[folderIds.length - 1];
 
   const goNextFolder = (newFolderId: string) => {
-    searchParams.append('f', newFolderId);
-    navigate("?" + searchParams.toString());
+    params.append('f', newFolderId);
+    navigate('/movies?' + params.toString());
     setFolderIds(prev => [...prev, newFolderId])
   };
-  console.log('render')
-
-  useEffect(() => {
-    setFolderIds([driveId, ...[...searchParams].map(p => p[1])])
-  }, [searchParams.toString()])
 
   return (
     <div>

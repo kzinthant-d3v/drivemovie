@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { MovieDetail } from '../types';
 import { getMovieDetail } from '../utils/getMovieDetail';
-import Video from '../components/Video';
 import { PageProps } from 'gatsby';
 
+const Video = React.lazy(() => import("../components/Video"))
+
 function Detail({ location }: PageProps) {
-  const params = (new URL(location.toString())).searchParams;
+  const isSSR = typeof window === 'undefined';
+  const params = new URLSearchParams(location.search);
+
   const movieId = params.get('movieId') ?? '';
   const videoId = params.get('videoId')
   const [movieDetail, setMovieDetail] = useState<MovieDetail>();
@@ -35,7 +38,7 @@ function Detail({ location }: PageProps) {
     <div className='relative'>
       <img src={backDrop} alt="poster" className='absolute' />
       <div className='w-[1000px]'>
-        <Video id={videoId} />
+        {!isSSR && <React.Suspense fallback={<div />}><Video id={videoId} /></React.Suspense>}
       </div>
     </div>)
 }
