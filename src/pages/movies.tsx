@@ -6,7 +6,7 @@ import { PageProps, navigate } from 'gatsby';
 function Movies({ location }: PageProps) {
 
   useAccessToken();
-  const params = (new URL(location.href.toString())).searchParams;
+  const params = (new URL(location.href?.toString())).searchParams;
   const searchParams = new URLSearchParams(params);
 
   const driveId = '0ADqpawmQtjtnUk9PVA';
