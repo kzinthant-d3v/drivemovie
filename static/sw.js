@@ -50,13 +50,12 @@ const storage = (() => {
   };
 })();
 
-self.addEventListener("install", () => {
-  console.log("sw installed");
+self.addEventListener("install", (event) => {
+  event.waitUntil(self.skipWaiting());
 });
 
-self.addEventListener("activate", () => {
-  console.log("sw activated");
-  return self.clients.claim();
+self.addEventListener("activate", (event) => {
+  event.waitUntil(self.clients.claim());
 });
 
 self.addEventListener("fetch", (e) => {
