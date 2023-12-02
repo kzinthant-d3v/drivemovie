@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import listDriveFolderAndVideo from '../api/getDriveFiles';
 import ItemList from './ItemList';
 import { ItemPlaceholder, MovieFile } from '../types';
@@ -20,6 +20,7 @@ function DriveList({
   folderId,
   search
 }: DriveListProps) {
+
   const getPlaceHolders = () =>
     Array.from(Array(8).keys()).map((e) => ({
       id: e.toString() + new Date().getTime(),
@@ -37,6 +38,7 @@ function DriveList({
   });
 
   const getData = async ({ newPage = false }) => {
+    if (!driveId) return;
     try {
       const data = await listDriveFolderAndVideo({
         driveId,
@@ -77,14 +79,14 @@ function DriveList({
     getData({ newPage: true });
   }, [folderId]);
 
-  const updateItems = () => {
+  const updateItems = useCallback(() => {
     setPlaceholders((prev) => {
       if (nextPage.nextPageToken) {
         return [...prev, ...getPlaceHolders()];
       }
       return prev;
     });
-  };
+  }, []);
 
 
   return (
@@ -100,4 +102,4 @@ function DriveList({
   );
 }
 
-export default DriveList;
+export default memo(DriveList);

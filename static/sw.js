@@ -70,7 +70,7 @@ self.addEventListener("fetch", (e) => {
           credentials: "same-origin",
           headers: {
             range: e.request.headers.get("range"),
-            authorization: "Bearer " + token,
+            authorization: Boolean(e.request.headers.get("authorization")) ? e.request.headers.get("authorization") : "Bearer " + token,
           },
         });
         return fetch(req);

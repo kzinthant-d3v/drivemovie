@@ -21,16 +21,20 @@ const listDriveFolderAndVideo = async ({ driveId, folderId, pageToken = "", sear
     filesApi +
       "?" +
       new URLSearchParams({
-        corpora: "drive",
-        driveId,
-        includeItemsFromAllDrives: "true",
+        // corpora: "drive",
+        // driveId,
+        // includeItemsFromAllDrives: "true",
         pageSize: PAGE_SIZE.toString(),
         pageToken,
-        supportsAllDrives: "true",
+        // supportsAllDrives: "true",
         q: searchQuery,
         fields : "nextPageToken, files(id, name, mimeType, size ,createdTime, modifiedTime, iconLink, thumbnailLink)"
       })
-  );
+  ,{
+    headers: {
+      authorization: localStorage.getItem('accessToken') ?? ''
+    }
+  });
   return (await response.json()) as DriveList;
 };
 

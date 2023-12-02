@@ -1,6 +1,4 @@
-import React, { ReactNode, useEffect } from "react";
-import { groupArray } from "../utils/groupArray";
-import useIntersection from "../hooks/useIntersection";
+import React, { ReactNode, memo, useEffect } from "react";
 import Item from "./Item";
 import { DriveFile, ItemPlaceholder, MimeTypes, MovieFile } from "../types";
 
@@ -38,7 +36,7 @@ function ItemList<T extends DriveFile>({
 
   return (
     <div>
-      <div className="grid grid-cols-2 lg:grid-cols-4 border border-red-500 bottom-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4">
         {
           [...items, ...placeholders.slice(items.length)].map((item, index) => (
             <Item
@@ -54,4 +52,4 @@ function ItemList<T extends DriveFile>({
   );
 }
 
-export default ItemList;
+export default memo(ItemList);

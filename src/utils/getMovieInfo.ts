@@ -18,5 +18,5 @@ type MovieInfo = {
 export const getMovieInfo = async (keyword: string) => {
   const key = process.env.GATSBY_MOVIE_DB_KEY;
   const response =  await fetch(`https://api.themoviedb.org/3/search/movie?query=${keyword}&api_key=${key}`);
-  return await response.json() as MovieInfo;
+return await response.json() as MovieInfo;
 };
