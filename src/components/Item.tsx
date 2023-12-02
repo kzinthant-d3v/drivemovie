@@ -41,7 +41,7 @@ function Item({ item, moviesMeta, index, goNextFolder }: ItemProps) {
             </div>
               :
               isPosterPath ? <div className="w-[200px] h-full"
-                onClick={() => window.location.href = `/detail/?movieId=${moviesMeta[item.id]?.movieId}&videoId=${item.id}`}
+                onClick={() => window.location.href = `/detail/?movieId=${moviesMeta[item.id]?.movieId ?? 'noId'}&videoId=${item.id}`}
               >
                 <img src={moviesMeta[item.id]?.posterPath} alt="poster" />
                 <h1>{item.name}</h1>

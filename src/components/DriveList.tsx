@@ -3,6 +3,7 @@ import listDriveFolderAndVideo from '../api/getDriveFiles';
 import ItemList from './ItemList';
 import { ItemPlaceholder, MovieFile } from '../types';
 import { updateMeta } from '../utils/updateMeta';
+import { navigate } from 'gatsby';
 
 type FilesType = Awaited<ReturnType<typeof listDriveFolderAndVideo>>;
 
@@ -10,12 +11,14 @@ type DriveListProps = {
   goNextFolder: (folderId: string) => void;
   driveId: string;
   folderId: string;
+  search?: string;
 };
 
 function DriveList({
   goNextFolder,
   driveId,
   folderId,
+  search
 }: DriveListProps) {
   const getPlaceHolders = () =>
     Array.from(Array(8).keys()).map((e) => ({
@@ -39,6 +42,7 @@ function DriveList({
         driveId,
         folderId,
         pageToken: newPage ? '' : nextPage.nextPageToken,
+        search
       });
       if (data && data.files) {
         const { nextPageToken, files } = data;
@@ -81,6 +85,7 @@ function DriveList({
       return prev;
     });
   };
+
 
   return (
     <div>

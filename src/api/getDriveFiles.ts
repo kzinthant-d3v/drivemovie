@@ -5,6 +5,7 @@ type Params = {
   driveId: string;
   folderId: string;
   pageToken?: string;
+  search?: string;
 };
 
 type DriveList = {
@@ -12,7 +13,10 @@ type DriveList = {
   files: Array<DriveFile>;
 };
 
-const listDriveFolderAndVideo = async ({ driveId, folderId, pageToken = "" }: Params) => {
+const listDriveFolderAndVideo = async ({ driveId, folderId, pageToken = "", search }: Params) => {
+  let searchQuery = `'${folderId}' in parents and (mimeType = 'application/vnd.google-apps.folder' or mimeType = 'video/mp4')`;
+  if(search) searchQuery = `mimeType = 'video/mp4' and name contains '${search}'`;
+  
   const response = await fetch(
     filesApi +
       "?" +
@@ -23,7 +27,8 @@ const listDriveFolderAndVideo = async ({ driveId, folderId, pageToken = "" }: Pa
         pageSize: PAGE_SIZE.toString(),
         pageToken,
         supportsAllDrives: "true",
-        q: `'${folderId}' in parents and (mimeType = 'application/vnd.google-apps.folder' or mimeType = 'video/mp4')`,
+        q: searchQuery,
+        fields : "nextPageToken, files(id, name, mimeType, size ,createdTime, modifiedTime, iconLink, thumbnailLink)"
       })
   );
   return (await response.json()) as DriveList;

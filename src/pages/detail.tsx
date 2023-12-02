@@ -13,13 +13,19 @@ function Detail({ location }: PageProps) {
   const videoId = params.get('videoId')
   const [movieDetail, setMovieDetail] = useState<MovieDetail>();
 
+
   useEffect(() => {
     (async () => {
       setMovieDetail(await getMovieDetail(movieId));
     })();
   }, []);
 
-  if (!movieDetail) return null;
+  if (movieId === 'noId') return <div>
+    {!isSSR && <React.Suspense fallback={<div />}><Video id={videoId ?? ''} /></React.Suspense>}
+  </div>
+
+  if (!movieDetail) return null
+
   const {
     backDrop,
     genres,

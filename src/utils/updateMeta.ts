@@ -1,35 +1,45 @@
 import {MovieFile} from '../types';
 import {getMovieInfo} from './getMovieInfo';
+import { filenameParse } from '@ctrl/video-filename-parser';
+
 
 const trimWords = [
+  /\(([^\)]+)\)/g,
+  /\{([^\)]+)\}/g,
+  /\[([^\)]+)\]/g,
+  /\d/g,
   /\sP\s/g,
   /\sp\s/g,
+  /\sB\s/g,
+  /\sR\s/g,
+  "Copy of",
   'Blurary',
   'Bluray',
   /\smp\s?/g,
   /\smp\s?/g,
   /\smb\s/g,
   'BluRay',
+  'Blu-Ray',
   /\sCH\s/g,
   'Webrip',
   'Amzn',
   'Fhdrip',
   'WEB-DL',
+  'WEBDL',
   'PP',
   'DC',
   'small',
   '_p',
   'Episode',
   'Complete',
-  'Ep'
+  'Ep',
+  'The Series',
+
 ];
 const transformName = (name: string) => {
-  const dotRemovedName = name.split('.').join(' ');
-  const parenRemovedName = dotRemovedName.replace(/\(([^\)]+)\)/g, '');
-  const curlRemovedName = parenRemovedName.replace(/\{([^\)]+)\}/g, '');
-  const digitRemovedName = curlRemovedName.replace(/\d/g, '');
+  const removeDots = name.split('.').join(' ');
 
-  let trimedName = digitRemovedName;
+  let trimedName = removeDots;
 
   trimWords.forEach((trim) => {
     trimedName = trimedName.replaceAll(trim, ' ');
@@ -39,7 +49,7 @@ const transformName = (name: string) => {
 };
 
 export const updateMeta = async (name: string) => {
-  const videoData = await getMovieInfo(transformName(name));
+  const videoData = await getMovieInfo(transformName(filenameParse(name).title));
 
   if(videoData.results.length === 0 ) return {
    posterPath: '/assets/mplaceholder.svg' 
